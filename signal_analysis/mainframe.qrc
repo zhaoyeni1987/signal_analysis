@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/mainframe">
+        <file>image/open_file.png</file>
+        <file>image/auto_view.png</file>
+        <file>image/save_to_png.png</file>
+    </qresource>
+</RCC>
