@@ -3,6 +3,11 @@
 #include "qcustomplot.h"
 #include <QVector>
 
+typedef enum
+{
+	EN_SHOW_DEFAULT = 0,
+	EN_SHOW_HEX
+}EN_SHOW_MODE;
 
 typedef struct
 {
@@ -12,6 +17,7 @@ typedef struct
 	QCPItemTracer* pLastTracer;
 	bool bClickedTracerShow;
 	unsigned int ClickedTracerIndex;
+	EN_SHOW_MODE enShowMode;
 	QVector<double> vTime;
 	QVector<double> vValue;
 }STRU_GRAPH;
@@ -50,6 +56,9 @@ public:
 
 	void SetStyle(EN_STYLE enStyle);
 	EN_STYLE GetStyle();
+
+	void SetShowMode(QString strGraphName, EN_SHOW_MODE enShowMode);
+	EN_SHOW_MODE GetShowMode(QString strGraphName);
 
 	void GotoKey(double key);
 

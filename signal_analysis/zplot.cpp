@@ -141,8 +141,17 @@ void ZPlot::MousePressEvent(QMouseEvent* event)
 					temp.append(QString("Time: %1\n").arg(m_vGraph[i].vTime[tarIndex]));
 				}
 
-				temp.append(QString("%1:\t%2\n").arg(m_vGraph[i].pGraph->name())
-					.arg(m_vGraph[i].vValue[tarIndex]));
+				if (m_vGraph[i].enShowMode == EN_SHOW_HEX)
+				{
+					int value = (int)(m_vGraph[i].vValue[tarIndex]);
+					temp.append(QString("%1:\t0x%2\n").arg(m_vGraph[i].pGraph->name())
+						.arg(QString::number(value, 16)));
+				}
+				else
+				{
+					temp.append(QString("%1:\t%2\n").arg(m_vGraph[i].pGraph->name())
+						.arg(m_vGraph[i].vValue[tarIndex]));
+				}
 
 				m_vGraph[i].pLastTracer->setVisible(false);
 
@@ -248,6 +257,7 @@ QCPGraph* ZPlot::AddNormalGraph()
 	stGraph.pClickedTracer = pClickedTracer;
 	stGraph.pLastTracer = pLastTracer;
 	stGraph.pClickPointInfo = pClickPointInfo;
+	stGraph.enShowMode = EN_SHOW_DEFAULT;
 
 	m_vGraph.append(stGraph);
 
@@ -626,8 +636,17 @@ void ZPlot::keyPressEvent(QKeyEvent *event)
 						temp.append(QString("Time: %1\n").arg(m_vGraph[i].vTime[m_vGraph[i].ClickedTracerIndex]));
 					}
 
-					temp.append(QString("%1:\t%2\n").arg(m_vGraph[i].pGraph->name())
-						.arg(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]));
+					if (m_vGraph[i].enShowMode == EN_SHOW_HEX)
+					{
+						int value = (int)(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]);
+						temp.append(QString("%1:\t0x%2\n").arg(m_vGraph[i].pGraph->name())
+							.arg(QString::number(value, 16)));
+					}
+					else
+					{
+						temp.append(QString("%1:\t%2\n").arg(m_vGraph[i].pGraph->name())
+							.arg(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]));
+					}
 
 					//temp.append(QString("time:%1\tvalue:%2\n").arg(m_vGraph[i].vTime[m_vGraph[i].ClickedTracerIndex])
 					//	.arg(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]));
@@ -678,8 +697,17 @@ void ZPlot::keyPressEvent(QKeyEvent *event)
 						temp.append(QString("Time: %1\n").arg(m_vGraph[i].vTime[m_vGraph[i].ClickedTracerIndex]));
 					}
 
-					temp.append(QString("%1:\t%2\n").arg(m_vGraph[i].pGraph->name())
-						.arg(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]));
+					if (m_vGraph[i].enShowMode == EN_SHOW_HEX)
+					{
+						unsigned int value = (unsigned int)(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]);
+						temp.append(QString("%1:\t0x%2\n").arg(m_vGraph[i].pGraph->name())
+							.arg(QString::number(value, 16)));
+					}
+					else
+					{
+						temp.append(QString("%1:\t%2\n").arg(m_vGraph[i].pGraph->name())
+							.arg(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]));
+					}
 
 					//temp.append(QString("time:%1\tvalue:%2\n").arg(m_vGraph[i].vTime[m_vGraph[i].ClickedTracerIndex])
 					//	.arg(m_vGraph[i].vValue[m_vGraph[i].ClickedTracerIndex]));
@@ -778,6 +806,30 @@ void ZPlot::SetStyle(EN_STYLE enStyle)
 EN_STYLE ZPlot::GetStyle()
 {
 	return m_enStyle;
+}
+
+void ZPlot::SetShowMode(QString strGraphName, EN_SHOW_MODE enShowMode)
+{
+	for (int i = 0; i < m_vGraph.size(); i++)
+	{
+		if (strGraphName == m_vGraph[i].pGraph->name())
+		{
+			m_vGraph[i].enShowMode = enShowMode;
+		}
+	}
+}
+
+EN_SHOW_MODE ZPlot::GetShowMode(QString strGraphName)
+{
+	for (int i = 0; i < m_vGraph.size(); i++)
+	{
+		if (strGraphName == m_vGraph[i].pGraph->name())
+		{
+			return m_vGraph[i].enShowMode;
+		}
+	}
+
+	return EN_SHOW_DEFAULT;
 }
 
 void ZPlot::GotoKey(double key)

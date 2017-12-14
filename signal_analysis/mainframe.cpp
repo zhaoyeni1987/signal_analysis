@@ -134,8 +134,26 @@ void mainframe::Plot()
 
 	QVector<double>* m_pvValue = m_Message.GetValue(index);
 
-	if(m_pvTime != NULL)
+	if (m_pvTime != NULL)
+	{
 		ui.plot->AddData(*m_pvTime, *m_pvValue, m_Message.GetSignalNameList()[index]);
+		if (m_Message.GetSignalNameList()[index] == "sw_ctrl_sta")
+		{
+			ui.plot->SetShowMode(m_Message.GetSignalNameList()[index], EN_SHOW_HEX);
+		}
+		else if (m_Message.GetSignalNameList()[index] == "drive1_sta")
+		{
+			ui.plot->SetShowMode(m_Message.GetSignalNameList()[index], EN_SHOW_HEX);
+		}
+		else if (m_Message.GetSignalNameList()[index] == "drive2_sta")
+		{
+			ui.plot->SetShowMode(m_Message.GetSignalNameList()[index], EN_SHOW_HEX);
+		}
+		else if (m_Message.GetSignalNameList()[index] == "input1_sta")
+		{
+			ui.plot->SetShowMode(m_Message.GetSignalNameList()[index], EN_SHOW_HEX);
+		}
+	}
 }
 
 void mainframe::CancelPlot()
